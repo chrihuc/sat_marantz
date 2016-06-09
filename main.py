@@ -65,8 +65,8 @@ while True:
             try:
                     #print data
                     data_ev = eval(data)
-                    if (data_ev.get("Command") <> "") and (data_ev.get("Value") <> ""):
-                        MSI.cmd(str(data_ev.get("Command")), str(data_ev.get("Value")))
+                    for cmd in data_ev:
+                        MSI.cmd(str(cmd), str(data_ev.get(cmd)))
             except NameError as serr:
                     pass
         #print type(data_ev)
