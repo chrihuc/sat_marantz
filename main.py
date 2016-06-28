@@ -65,8 +65,14 @@ while True:
             try:
                     #print data
                     data_ev = eval(data)
+                    if data_ev.get('Name') == 'TV_ein':
+                        os.system("echo 'on 0' | cec-client -s")
+                        os.system("irsend SEND_START TV_3 Power_on")
+                        time.sleep(2)
+                        os.system("irsend SEND_STOP TV_3 Power_on")                         
                     for cmd in data_ev:
-                        MSI.cmd(str(cmd), str(data_ev.get(cmd)))
+                        if data_ev.get(cmd) <> None:
+                            MSI.cmd(str(cmd), str(data_ev.get(cmd)))
             except NameError as serr:
                     pass
         #print type(data_ev)
