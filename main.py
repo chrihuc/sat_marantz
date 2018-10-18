@@ -23,8 +23,8 @@ SIZE = 1024
 
 hostName = gethostbyname( '0.0.0.0' )
 
-mySocket = socket( AF_INET, SOCK_DGRAM )
-mySocket.bind( (hostName, PORT_NUMBER) )
+#mySocket = socket( AF_INET, SOCK_DGRAM )
+#mySocket.bind( (hostName, PORT_NUMBER) )
 
 serialIn = serial.Serial('/dev/ttyUSB0', 9600, bytesize=8, parity='N', stopbits=1, timeout=0)
 MSI = MarantzSerialInterface(serialIn)
@@ -75,7 +75,7 @@ def dis_con (*args, **kargs):
     print("disconnected")
 
 def on_message(client, userdata, msg):
-#    print(msg.topic + " " + str(msg.payload))
+    print(msg.topic + " " + str(msg.payload))
     try:
         m_in=(json.loads(msg.payload)) #decode json data
 #        print(m_in)
