@@ -78,15 +78,16 @@ def on_message(client, userdata, msg):
     print(msg.topic + " " + str(msg.payload))
     try:
         m_in=(json.loads(msg.payload)) #decode json data
-#        print(m_in)
+        print(m_in)
         if m_in['Name'] == "STOP":
             os.system("sudo killall python")
             #pass
         elif m_in['Name'] == "TV_ein":
             os.system("echo 'on 0' | cec-client -s")
-            #os.system("irsend SEND_START TV_3 Power_on")
-            #time.sleep(2)
-            #os.system("irsend SEND_STOP TV_3 Power_on")  
+#            os.system("echo 'on 0' | cec-client -s")
+            os.system("irsend SEND_START TV_3 Power_on")
+            time.sleep(2)
+            os.system("irsend SEND_STOP TV_3 Power_on")  
         elif m_in['Name'] == "AMPein":
             #os.system("irsend SEND_START RC003SR_5 PowerOn")
             #time.sleep(1.5)
@@ -104,19 +105,14 @@ def on_message(client, userdata, msg):
             dicti['Treble'] = str(status.treble)
             #mySocket.sendto(str(dicti),(OUTPUTS_IP,OUTPUTS_PORT))          
         else:
-            try:
-                    #print data
-                    data_ev = eval(data)
-                    if m_in.get('Name') == 'TV_ein':
-                        os.system("echo 'on 0' | cec-client -s")
-                        os.system("irsend SEND_START TV_3 Power_on")
-                        time.sleep(2)
-                        os.system("irsend SEND_STOP TV_3 Power_on")                         
-                    for cmd in m_in:
-                        if m_in.get(cmd) <> None:
-                            MSI.cmd(str(cmd), str(data_ev.get(cmd)))
-            except NameError as serr:
-                    pass
+            if m_in.get('Name') == 'TV_ein':
+                os.system("echo 'on 0' | cec-client -s")
+                os.system("irsend SEND_START TV_3 Power_on")
+                time.sleep(2)
+                os.system("irsend SEND_STOP TV_3 Power_on")                         
+            for cmd in m_in:
+                if m_in.get(cmd) <> None:
+                    MSI.cmd(str(cmd), str(m_in.get(cmd)))
 
     except ValueError:
         print("no json code")
